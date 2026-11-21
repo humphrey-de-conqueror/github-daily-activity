@@ -1,1 +1,1 @@
-module.exports = () => 'Daily Snippet';
+module.exports = require('./snippets/snippet_20261121');

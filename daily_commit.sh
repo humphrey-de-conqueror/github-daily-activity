@@ -1,20 +1,32 @@
 #!/bin/bash
 
-# Repository path
 REPO_PATH="$HOME/github-daily-activity"
-LOG_FILE="$REPO_PATH/ACTIVITY.md"
+SNIPPET_DIR="$REPO_PATH/src/snippets"
+INDEX_FILE="$REPO_PATH/src/index.js"
+DATE=$(date +"%Y%m%d")
+HUMAN_DATE=$(date +"%Y-%m-%d %H:%M:%S")
 
-# Ensure the directory exists
+mkdir -p "$SNIPPET_DIR"
 cd "$REPO_PATH" || exit 1
 
-# Update the log file with the current date and a simple coding fact or snippet
-DATE=$(date +"%Y-%m-%d %H:%M:%S")
-echo "### Daily Activity - $DATE" >> "$LOG_FILE"
-echo "" >> "$LOG_FILE"
-echo "Daily status update performed by DSH on behalf of $(whoami)." >> "$LOG_FILE"
-echo "" >> "$LOG_FILE"
+# Generate a small code snippet (this can be improved by the AI agent per run)
+# For now, we'll use a placeholder that describes the contribution
+cat <<EOF > "$SNIPPET_DIR/snippet_$DATE.js"
+/**
+ * Daily Utility: $HUMAN_DATE
+ * Purpose: Simple activity contribution.
+ */
+function dailyTask_$DATE() {
+  console.log("Executing task for $HUMAN_DATE");
+}
+
+module.exports = dailyTask_$DATE;
+EOF
+
+# Update the main index to point to the latest
+echo "module.exports = require('./snippets/snippet_$DATE');" > "$INDEX_FILE"
 
 # Git operations
-git add "$LOG_FILE"
-git commit -m "chore: daily status update $DATE"
+git add .
+git commit -m "feat: add daily code snippet $DATE"
 git push origin master
