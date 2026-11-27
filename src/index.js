@@ -1,1 +1,1 @@
-module.exports = require('./snippets/snippet_20261126');
+module.exports = require('./snippets/snippet_20261127');
